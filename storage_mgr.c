@@ -82,19 +82,68 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
 int getBlockPos (SM_FileHandle *fHandle){
 }
 
-RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	FILE *fp;
+	fp=fopen(fHandle->fileName,"r");
+	fseek(fp,0,SEEK_SET);
+	read(fp,memPage,PAGE_SIZE);
+	fclose(fp);
 }
 
-RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	if(fHandle->curPagePos<=1||fHandle->curPagePos>fHandle->totalNumPages)
+		printf("this is the first page or current position invalid in readpreviousblock function\n");
+	else
+	{
+		FILE *fp;
+		fp=fopen(fHandle->fileName,"r");
+		int offset=(fHandle->curPagePos-2)*PAGE_SIZE;
+		fseek(fp,offset,SEEK_SET);
+		read(fp,memPage,PAGE_SIZE);
+		fclose(fp);
+	}
 }
 
-RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	if(fHandle->curPagePos<1||fHandle->curPagePos>fHandle->totalNumPages)
+		printf("value of curPagePos is invalid in readcurrentblock function\n");
+	else
+	{
+		FILE *fp;
+		fp=fopen(fHandle->fileName,"r");
+		int offset=(fHandle->curPagePos-1)*PAGE_SIZE;
+		fseek(fp,offset,SEEK_SET);
+		read(fp,memPage,PAGE_SIZE);
+		fclose(fp);
+	}
 }
 
-RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	if(fHandle->curPagePos>(fHandle->totalNumPages-1)||fHandle->curPagePos<1)
+		printf("the curPagePos is invalid in readnextblock function\n ");
+	else
+	{
+		FILE *fp;
+		fp=fopen(fHandle->fileName,"r");
+		int offset=fHandle->curPagePos*PAGE_SIZE;
+		fseek(fp,offset,SEEK_SET);
+		read(fp,memPage,PAGE_SIZE);
+		fclose(fp);
+	}
 }
 
-RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	FILE *fp;
+	fp=fopen(fHandle->fileName,"r");
+	int offset=-PAGE_SIZE;
+	fseek(fp,offset,SEEK_END);
+	read(fp,memPage,PAGE_SIZE);
+	fclose(fp);
 }
 
 /* writing blocks to a page file */
