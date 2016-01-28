@@ -57,17 +57,107 @@ extern RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle);
 
 /* Chuanwei Xu */
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 void initStorageManager(void){
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC createPageFile(char *fileName){
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC openPageFile (char *fileName, SM_FileHandle *fHandle){
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC closePageFile (SM_FileHandle *fHandle){
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC destroyPageFile (char *fileName){
 }
@@ -76,11 +166,65 @@ RC destroyPageFile (char *fileName){
 
 /* Xiaoliang Wu, Zhipeng Liu*/
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 int getBlockPos (SM_FileHandle *fHandle){
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
@@ -90,6 +234,24 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	read(fp,memPage,PAGE_SIZE);
 	fclose(fp);
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
@@ -106,6 +268,24 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	}
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	if(fHandle->curPagePos<1||fHandle->curPagePos>fHandle->totalNumPages)
@@ -120,6 +300,24 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 		fclose(fp);
 	}
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
@@ -136,6 +334,24 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	}
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	FILE *fp;
@@ -150,14 +366,86 @@ RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 
 /* Xincheng Yang*/
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC writeBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC writeCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
 }
 
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
+
 RC appendEmptyBlock (SM_FileHandle *fHandle){
 }
+
+/***************************************************************
+ * Function Name: 
+ * 
+ * Description:
+ *
+ * Parameters:
+ *
+ * Return:
+ *
+ * Author:
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *
+***************************************************************/
+
 
 RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
 }
