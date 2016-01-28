@@ -209,19 +209,19 @@ int getBlockPos (SM_FileHandle *fHandle){
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name:  readFirstBlock
  * 
- * Description:
+ * Description:read the first block of the file described in fHandle
  *
- * Parameters:
+ * Parameters:SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return:RC
  *
- * Author:
+ * Author:Liu Zhipeng
  *
  * History:
- *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      Date                     Name                        Content
+ *      2016/1/27       liuzhipeng                    first time to implement the function
  *
 ***************************************************************/
 
@@ -236,19 +236,19 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name:readPreviousBlock
  * 
- * Description:
+ * Description:read the previousblock in this file into the address witch memPage pointed
  *
- * Parameters:
+ * Parameters:SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return:RC
  *
- * Author:
+ * Author:Liu Zhipeng
  *
  * History:
- *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      Date                     Name                             Content
+ *      2016/1/27       liuzhipeng                    first time to implement the function
  *
 ***************************************************************/
 
@@ -269,19 +269,19 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: readCurrentBlock
  * 
- * Description:
+ * Description: read the current block (pointed by the fHandle->curPagePos) into memo address memPage
  *
- * Parameters:
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Liu Zhipeng
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/1/27     liuzhipeng             first time to implement the function
  *
 ***************************************************************/
 
@@ -302,19 +302,19 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: readNextBlock
  * 
- * Description:
+ * Description: read the next block (the current block defined in the fHandle->curPagePos) in to memo address memPage
  *
- * Parameters:
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Liu Zhipeng
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/1/27     liuzhipeng             first time to implement the function
  *
 ***************************************************************/
 
@@ -335,19 +335,19 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: readLastBlock
  * 
- * Description:
+ * Description: read the last block in this file into memo address memPage
  *
- * Parameters:
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Liu Zhipeng
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/1/27     liuzhipeng             first time to implement the function
  *
 ***************************************************************/
 
