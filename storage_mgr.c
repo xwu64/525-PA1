@@ -167,45 +167,59 @@ RC destroyPageFile (char *fileName){
 /* Xiaoliang Wu, Zhipeng Liu*/
 
 /***************************************************************
- * Function Name: 
+ * Function Name: readBlock
  * 
- * Description:
+ * Description: read the pageNum block from the file defined by fHandle into address memePage
  *
- * Parameters:
+ * Parameters:int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage
  *
- * Return:
+ * Return:RC
  *
- * Author:
+ * Author:liu zhipeng
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/1/30      liuzhipeng            first time to implement the function
  *
 ***************************************************************/
 
 
-RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
+RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
+{
+	if(pageNum>fHandle->totalNumPages||pageNum<1)
+		return RC_READ_NON_EXISTING_PAGE;
+	else
+	{
+		FILE *fp;
+		fp=fopen(fHandle->fileName,"r");
+		int offset;
+		offset=(pageNum-1)*PAGE_SIZE;
+		fread(fp,offset,memPage);
+		fclose(fp);
+	}
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: getBlockPos
  * 
- * Description:
+ * Description:return the current block position in the file
  *
- * Parameters:
+ * Parameters:SM_FileHandle *fHandle
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author:liu zhipeng
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/1/30      liuzhipeng            first time to implement the function
  *
 ***************************************************************/
 
 
-int getBlockPos (SM_FileHandle *fHandle){
+int getBlockPos (SM_FileHandle *fHandle)
+{
+	return fHandle->curPagePos;
 }
 
 /***************************************************************
@@ -221,7 +235,7 @@ int getBlockPos (SM_FileHandle *fHandle){
  *
  * History:
  *      Date                     Name                        Content
- *      2016/1/27       liuzhipeng                    first time to implement the function
+ *      2016/1/30      liuzhipeng                    first time to implement the function
  *
 ***************************************************************/
 
@@ -256,7 +270,7 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	if(fHandle->curPagePos<=1||fHandle->curPagePos>fHandle->totalNumPages)
-		printf("this is the first page or current position invalid in readpreviousblock function\n");
+		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
 		FILE *fp;
@@ -289,7 +303,7 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	if(fHandle->curPagePos<1||fHandle->curPagePos>fHandle->totalNumPages)
-		printf("value of curPagePos is invalid in readcurrentblock function\n");
+		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
 		FILE *fp;
@@ -322,7 +336,7 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	if(fHandle->curPagePos>(fHandle->totalNumPages-1)||fHandle->curPagePos<1)
-		printf("the curPagePos is invalid in readnextblock function\n ");
+		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
 		FILE *fp;
