@@ -191,10 +191,11 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
+		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset;
 		offset=(pageNum-1)*PAGE_SIZE;
-		read(fp,offset,memPage);
+		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fclose(fp);
 	}
 }
@@ -243,9 +244,10 @@ int getBlockPos (SM_FileHandle *fHandle)
 RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	FILE *fp;
+	memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"r");
 	fseek(fp,0,SEEK_SET);
-	read(fp,memPage,PAGE_SIZE);
+	fread(memPage,sizeof(char),PAGE_SIZE,fp);
 	fHandle->curPagePos=1;
 	fclose(fp);
 }
@@ -275,6 +277,7 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
+		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=(fHandle->curPagePos-2)*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
@@ -309,10 +312,11 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
+		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=(fHandle->curPagePos-1)*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
-		read(fp,memPage,PAGE_SIZE);
+		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fclose(fp);
 	}
 }
@@ -342,10 +346,11 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
+		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=fHandle->curPagePos*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
-		read(fp,memPage,PAGE_SIZE);
+		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fHandle->curPagePos=fHandle->curPagePos+1;
 		fclose(fp);
 	}
@@ -372,10 +377,11 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	FILE *fp;
+	memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"r");
 	int offset=-PAGE_SIZE;
 	fseek(fp,offset,SEEK_END);
-	read(fp,memPage,PAGE_SIZE);
+	fread(memPage,sizeof(char),PAGE_SIZE,fp);
 	fHandle->curPagePos=fHandle->totalNumPages;
 	fclose(fp);
 }
