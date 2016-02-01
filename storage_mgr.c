@@ -194,7 +194,7 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
 		fp=fopen(fHandle->fileName,"r");
 		int offset;
 		offset=(pageNum-1)*PAGE_SIZE;
-		fread(fp,offset,memPage);
+		read(fp,offset,memPage);
 		fclose(fp);
 	}
 }
@@ -246,6 +246,7 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	fp=fopen(fHandle->fileName,"r");
 	fseek(fp,0,SEEK_SET);
 	read(fp,memPage,PAGE_SIZE);
+	fHandle->curPagePos=1;
 	fclose(fp);
 }
 
@@ -278,6 +279,7 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 		int offset=(fHandle->curPagePos-2)*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		read(fp,memPage,PAGE_SIZE);
+		fHandle->curPagePos=fHandle->curPagePos-1;
 		fclose(fp);
 	}
 }
@@ -344,6 +346,7 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 		int offset=fHandle->curPagePos*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		read(fp,memPage,PAGE_SIZE);
+		fHandle->curPagePos=fHandle->curPagePos+1;
 		fclose(fp);
 	}
 }
@@ -373,6 +376,7 @@ RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	int offset=-PAGE_SIZE;
 	fseek(fp,offset,SEEK_END);
 	read(fp,memPage,PAGE_SIZE);
+	fHandle->curPagePos=fHandle->totalNumPages;
 	fclose(fp);
 }
 
