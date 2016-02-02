@@ -388,89 +388,156 @@ RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 
 /* writing blocks to a page file */
 
-/* Xincheng Yang*/
-
 /***************************************************************
- * Function Name: 
+ * Function Name: writeBlock 
  * 
- * Description:
+ * Description: Write a page to disk using either the current position or an absolute position.
  *
- * Parameters:
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Xincheng Yang
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/2/2		Xincheng Yang             first time to implement the function
  *
 ***************************************************************/
-
-
 RC writeBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
+	ensureCapacity (pageNum, fHandle);		//Make sure the program have enough capacity to write block.
+	
+	FILE *fp;
+	fp=fopen(fHandle->fileName,"rb+");
+
+	if(fseek(fp,pageNum * PAGE_SIZE, SEEK_SET) != 0){
+		return RC_READ_NON_EXISTING_PAGE;	
+	}
+
+    if (fwrite(memPage, PAGE_SIZE, 1, fp) != 1){
+		return RC_WRITE_FAILED; 
+	}
+      
+	fclose(fp);
+	fHandle->curPagePos=pageNum;
+	
+	return RC_OK;
 }
 
+
 /***************************************************************
- * Function Name: 
+ * Function Name: writeCurrentBlock 
  * 
- * Description:
+ * Description: Write a page to disk using either the current position or an absolute position.
  *
- * Parameters:
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Xincheng Yang
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/2/2		Xincheng Yang             first time to implement the function
  *
 ***************************************************************/
-
-
 RC writeCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
+	if(fHandle == NULL){
+		return RC_FILE_HANDLE_NOT_INIT;
+	} 
+	if(fHandle->curPagePos < 0){
+		return RC_PAGE_NUMBER_OUT_OF_BOUNDRY;
+	}
+
+	return writeBlock(fHandle->curPagePos, fHandle, memPage);
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: appendEmptyBlock 
  * 
- * Description:
+ * Description: Increase the number of pages in the file by one. The new last page should be filled with zero bytes.
  *
- * Parameters:
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Xincheng Yang
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/2/1		Xincheng Yang             first time to implement the function
  *
 ***************************************************************/
-
-
 RC appendEmptyBlock (SM_FileHandle *fHandle){
+	if(fHandle == NULL){
+		return RC_FILE_HANDLE_NOT_INIT;
+	} 
+
+	FILE *fp;
+	char *allocData;
+
+	allocData = (char *)calloc(1, PAGE_SIZE);
+	fp=fopen(fHandle->fileName,"ab+");
+
+	if(fwrite(allocData, PAGE_SIZE, 1, fp) == -1)   
+	{
+		return RC_WRITE_FAILED;
+	}
+
+	free(allocData);
+	fclose(fp);
+	fHandle -> totalNumPages += 1;
+
+	return RC_OK;
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: ensureCapacity 
  * 
- * Description:
+ * Description: If the file has less than numberOfPages pages then increase the size to numberOfPages.
  *
- * Parameters:
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
  *
- * Return:
+ * Return: RC
  *
- * Author:
+ * Author: Xincheng Yang
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *   2016/2/1		Xincheng Yang             first time to implement the function
  *
 ***************************************************************/
-
-
 RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
-}
+	if(fHandle == NULL){
+		return RC_FILE_HANDLE_NOT_INIT;
+	} 
+	if(fHandle -> totalNumPages >= numberOfPages){
+		return RC_OK;
+	}
+	
+	FILE *fp;
+	struct stat status;
+	long allocCapacity;
+	char *allocData;
 
+	if(stat(fHandle->fileName, &status) == -1)   
+	{
+		return RC_FILE_NOT_FOUND;
+	}
+	
+	allocCapacity= numberOfPages * PAGE_SIZE - status.st_size;
+	allocData = (char *)malloc(allocCapacity);
+	
+	fp=fopen(fHandle->fileName,"ab+");
+   
+	if(fwrite(allocData, allocCapacity, 1, fp) == -1)   
+	{
+		return RC_WRITE_FAILED;
+	}
+
+	free(allocData);
+	fclose(fp);
+	fHandle -> totalNumPages = numberOfPages;
+
+	return RC_OK;
+}
