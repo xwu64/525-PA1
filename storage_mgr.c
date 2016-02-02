@@ -498,6 +498,7 @@ RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
  * History:
  *      Date            Name                        Content
  *   2016/2/2		Xincheng Yang             first time to implement the function
+ *   2016/2/2		Xincheng Yang			  modified some codes
  *
 ***************************************************************/
 RC writeBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
@@ -505,19 +506,19 @@ RC writeBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
 	
 	FILE *fp;
 	fp=fopen(fHandle->fileName,"rb+");
+	RC rv;
 
 	if(fseek(fp,pageNum * PAGE_SIZE, SEEK_SET) != 0){
-		return RC_READ_NON_EXISTING_PAGE;	
+		rv = RC_READ_NON_EXISTING_PAGE;	
+	} else if (fwrite(memPage, PAGE_SIZE, 1, fp) != 1){
+		rv = RC_WRITE_FAILED; 
+	} else {
+		fHandle->curPagePos=pageNum;		//Success write block, then curPagePos should be changed.
+		rv = RC_OK;
 	}
 
-    if (fwrite(memPage, PAGE_SIZE, 1, fp) != 1){
-		return RC_WRITE_FAILED; 
-	}
-      
 	fclose(fp);
-	fHandle->curPagePos=pageNum;
-	
-	return RC_OK;
+	return rv;
 }
 
 
@@ -542,7 +543,7 @@ RC writeCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
 		return RC_FILE_HANDLE_NOT_INIT;
 	} 
 	if(fHandle->curPagePos < 0){
-		return RC_PAGE_NUMBER_OUT_OF_BOUNDRY;
+		return RC_WRITE_FAILED;
 	}
 
 	return writeBlock(fHandle->curPagePos, fHandle, memPage);
@@ -562,6 +563,7 @@ RC writeCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage){
  * History:
  *      Date            Name                        Content
  *   2016/2/1		Xincheng Yang             first time to implement the function
+ *   2016/2/2		Xincheng Yang			  modified some codes
  *
 ***************************************************************/
 RC appendEmptyBlock (SM_FileHandle *fHandle){
@@ -571,20 +573,23 @@ RC appendEmptyBlock (SM_FileHandle *fHandle){
 
 	FILE *fp;
 	char *allocData;
+	RC rv;
 
 	allocData = (char *)calloc(1, PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"ab+");
 
 	if(fwrite(allocData, PAGE_SIZE, 1, fp) == -1)   
 	{
-		return RC_WRITE_FAILED;
+		rv = RC_WRITE_FAILED;
+	} else {
+		fHandle -> totalNumPages += 1;
+		rv = RC_OK;		
 	}
 
 	free(allocData);
 	fclose(fp);
-	fHandle -> totalNumPages += 1;
 
-	return RC_OK;
+	return rv;
 }
 
 /***************************************************************
@@ -615,6 +620,7 @@ RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
 	struct stat status;
 	long allocCapacity;
 	char *allocData;
+	RC rv;
 
 	if(stat(fHandle->fileName, &status) == -1)   
 	{
@@ -626,14 +632,16 @@ RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
 	
 	fp=fopen(fHandle->fileName,"ab+");
    
-	if(fwrite(allocData, allocCapacity, 1, fp) == -1)   
+	if(fwrite(allocData, allocCapacity, 1, fp) < 0)   
 	{
-		return RC_WRITE_FAILED;
+		rv = RC_WRITE_FAILED;
+	} else {
+		fHandle -> totalNumPages = numberOfPages;		//When write success, totalNumPages should be changed to numberOfPages.	
+		rv = RC_OK;
 	}
 
 	free(allocData);
 	fclose(fp);
-	fHandle -> totalNumPages = numberOfPages;
 
-	return RC_OK;
+	return rv;
 }
