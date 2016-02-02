@@ -169,7 +169,7 @@ RC destroyPageFile (char *fileName){
 /***************************************************************
  * Function Name: readBlock
  * 
- * Description: read the pageNum block from the file defined by fHandle into address memePage
+ * Description: read the pageNum block from the file defined by fHandle into address memPage
  *
  * Parameters:int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage
  *
@@ -179,7 +179,7 @@ RC destroyPageFile (char *fileName){
  *
  * History:
  *      Date            Name                        Content
- *      2016/1/30      liuzhipeng            first time to implement the function
+ *      2016/1/30      Zhipeng Liu            first time to implement the function
  *
 ***************************************************************/
 
@@ -213,7 +213,7 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * History:
  *      Date            Name                        Content
- *      2016/1/30      liuzhipeng            first time to implement the function
+ *      2016/1/30      Zhipeng Liu            first time to implement the function
  *
 ***************************************************************/
 
@@ -232,11 +232,11 @@ int getBlockPos (SM_FileHandle *fHandle)
  *
  * Return:RC
  *
- * Author:Liu Zhipeng
+ * Author:Zhipeng Liu
  *
  * History:
  *      Date                     Name                        Content
- *      2016/1/30      liuzhipeng                    first time to implement the function
+ *      2016/1/30      Zhipeng Liu                    first time to implement the function
  *
 ***************************************************************/
 
@@ -261,11 +261,11 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * Return:RC
  *
- * Author:Liu Zhipeng
+ * Author:Zhipeng Liu
  *
  * History:
  *      Date                     Name                             Content
- *      2016/1/27       liuzhipeng                    first time to implement the function
+ *      2016/1/27       Zhipeng Liu                    first time to implement the function
  *
 ***************************************************************/
 
@@ -296,11 +296,11 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * Return: RC
  *
- * Author: Liu Zhipeng
+ * Author: Zhipeng Liu
  *
  * History:
  *      Date            Name                        Content
- *   2016/1/27     liuzhipeng             first time to implement the function
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
  *
 ***************************************************************/
 
@@ -330,11 +330,11 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * Return: RC
  *
- * Author: Liu Zhipeng
+ * Author: Zhipeng Liu
  *
  * History:
  *      Date            Name                        Content
- *   2016/1/27     liuzhipeng             first time to implement the function
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
  *
 ***************************************************************/
 
@@ -365,11 +365,11 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * Return: RC
  *
- * Author: Liu Zhipeng
+ * Author: Zhipeng Liu
  *
  * History:
  *      Date            Name                        Content
- *   2016/1/27     liuzhipeng             first time to implement the function
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
  *
 ***************************************************************/
 
