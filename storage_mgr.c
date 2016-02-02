@@ -55,31 +55,38 @@ extern RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle);
 
 /* manipulating page files */
 
-/* Chuanwei Xu */
+/* Chuanwei Tu */
 
 /***************************************************************
- * Function Name: 
+ * Function Name: initStorageManager
  * 
- * Description:
+ * Description:to let user know enter the StorageManager
  *
- * Parameters:
+ * Parameters:void
  *
- * Return:
+ * Return:void
  *
- * Author:
+ * Author:Chuanwei Tu
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/2/1    	 Chuanwei Tu				  initializing the Storage Manager 
  *
 ***************************************************************/
 
 
 void initStorageManager(void){
+	
+   
+	printf("--------Initialzing the StorageManager----------");   // to let user know enter the StorageManager
+	printf("--------the StorageManager version is 2.00---------- \n");
+	//return;
 }
 
+
+
 /***************************************************************
- * Function Name: 
+ * Function Name: createPageFile
  * 
  * Description:
  *
@@ -97,14 +104,33 @@ void initStorageManager(void){
 
 
 RC createPageFile(char *fileName){
+	FILE *fp_new_open;   //get a file 
+	char * str_new;   //use the str_new as a char document
+
+	if(fileName == NULL){  //check the fileName if it exists
+		printf("-----The file does not exits.Pleas enter a valid fileName!!\n");
+		return RC_FILE_NOT_FOUND; 
+	}
+
+	fp_new = fopen(fileName,"w+");   //make sure the fp_new_open file readable, and writable
+	str_new = (char *)malloc(PAGE_SIZE);   //allocate the space for the string
+	memset(str_new,'\0',PAGE_SIZE);	//initialize the string
+	fwrite(str_new,PAGE_SIZE,1,fp_new_open); // write the string to the file
+	printf("A new page has been written to the file..")
+	free(str_new); // free the space, bye!
+	if(fp_new_open != NULL){
+		fclose(fp_new_open); // close it
+	}
+	return RC_OK;
+	
 }
 
 /***************************************************************
- * Function Name: 
+ * Function Name: createPageFile
  * 
  * Description:
  *
- * Parameters:
+ * Parameters:char *fileName ,SM_FileHandle *fHandle
  *
  * Return:
  *
@@ -112,12 +138,48 @@ RC createPageFile(char *fileName){
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/2/1		 Chuanwei Tu
  *
 ***************************************************************/
 
 
 RC openPageFile (char *fileName, SM_FileHandle *fHandle){
+	 FILE *fh = NULL;
+    long fileSize;
+    long last_check = -1;
+    
+    fh = fopen(fileName, "rb+");
+   // int returnV;
+    if(fh!=NULL)
+     {
+		int result;
+        result=fseek(fh,0L,SEEK_END);
+		if (result==0){
+			last_check = ftell(fh);                //offset of the tail of the file.
+			if(last_check != -1){
+				fileSize=last_check+1;                  //fileSizegth from the tail to the head of the page file = bytes of the page file.
+				fHandle ->totalNumPages = ((int) (fileSize/(PAGE_SIZE))) +1;
+				fHandle ->fileName = fileName;      //assign the fHandle's attributions.
+                        
+				fHandle ->curPagePos =0;
+			
+				fHandle ->mgmtInfo = fh;    //still not sure ...need help~~~~
+				return RC_OK;              // if failed to fetch the offset, return failed.
+			}else{
+				 return RC_GET_NUMBER_OF_BYTES_FAILED;
+				  } 
+		}
+		else if(result == -1){
+			printf("Error happened!---file seeking  failed");
+			return RC_FILE_NOT_FOUND;
+		}  // figure out the tail's position of the file, and let fp q             points to this position.
+		  // succeed to initialize the file handler
+	}
+	else
+    {
+		return RC_FILE_NOT_FOUND;
+    }
+	return RC_OK;
 }
 
 /***************************************************************
@@ -129,16 +191,31 @@ RC openPageFile (char *fileName, SM_FileHandle *fHandle){
  *
  * Return:
  *
- * Author:
+ * Author:Chuanwei Tu
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/2/1        Chuanwei Tu
  *
 ***************************************************************/
 
 
-RC closePageFile (SM_FileHandle *fHandle){
+RC closePageFile (SM_FileHandle *fHandle){       		// extern RC closePageFile (SM_FileHandle *fHandle)
+
+	if (fHandle == NULL){                         //if the fHandle is null, then return not init
+		return RC_FILE_HANDLE_NOT_INIT;
+	}
+
+	//set the fhandle structure
+	fHandle->fileName = NULL;                //make the file name of fhandle is null;
+
+	fHandle->totalNumPages = 0;              //make the file totalnumPages of fhandle is 0;
+	
+	fHandle->curPagePos = 0;                 //make the file curpagepos of fhandle is 0;
+	
+	fHandle->mgmtInfo = NULL;                ////make the file mgmtInfo of fhandle is null;
+
+	return RC_OK;
 }
 
 /***************************************************************
@@ -146,20 +223,38 @@ RC closePageFile (SM_FileHandle *fHandle){
  * 
  * Description:
  *
- * Parameters:
+ * Parameters:SM_FileHandle *fHandle
  *
  * Return:
  *
- * Author:
+ * Author:Chuanwei Tu
  *
  * History:
  *      Date            Name                        Content
- *      --------------  --------------------------  ----------------
+ *      2016/2/1        Chuanwei Tu				   destroyPageFile
  *
 ***************************************************************/
 
 
 RC destroyPageFile (char *fileName){
+	if(fileName == NULL){   //if file is null, then filename is null
+		return RC_FILE_NOT_FOUND;
+	}
+
+	int temp;
+	printf("----- Destroy the file.------")
+	temp = remove(fileName);   //use temp to store the result after removing fileName
+
+	if (temp == -1){                //if the result is -1, means destory fail failed
+
+		printf("destory file failed %s\n", fileName);
+		return RC_FILE_NOT_FOUND;
+
+	}
+
+	//perroe("remove"); the error exist in the errno 	
+	return RC_OK;
+
 }
 
 /* reading blocks from disc */
