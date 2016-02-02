@@ -175,7 +175,7 @@ RC destroyPageFile (char *fileName){
  *
  * Return:RC
  *
- * Author:liu zhipeng
+ * Author:Zhipeng Liu
  *
  * History:
  *      Date            Name                        Content
@@ -191,12 +191,12 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
-		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset;
 		offset=(pageNum-1)*PAGE_SIZE;
 		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fclose(fp);
+		return RC_OK;
 	}
 }
 
@@ -209,7 +209,7 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
  *
  * Return: RC
  *
- * Author:liu zhipeng
+ * Author:Zhipeng Liu
  *
  * History:
  *      Date            Name                        Content
@@ -244,12 +244,12 @@ int getBlockPos (SM_FileHandle *fHandle)
 RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	FILE *fp;
-	memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"r");
 	fseek(fp,0,SEEK_SET);
 	fread(memPage,sizeof(char),PAGE_SIZE,fp);
 	fHandle->curPagePos=1;
 	fclose(fp);
+	return RC_OK;
 }
 
 /***************************************************************
@@ -277,13 +277,13 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
-		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=(fHandle->curPagePos-2)*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		read(fp,memPage,PAGE_SIZE);
 		fHandle->curPagePos=fHandle->curPagePos-1;
 		fclose(fp);
+		return RC_OK;
 	}
 }
 
@@ -312,12 +312,12 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
-		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=(fHandle->curPagePos-1)*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fclose(fp);
+		return RC_OK;
 	}
 }
 
@@ -346,13 +346,13 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	else
 	{
 		FILE *fp;
-		memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 		fp=fopen(fHandle->fileName,"r");
 		int offset=fHandle->curPagePos*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		fread(memPage,sizeof(char),PAGE_SIZE,fp);
 		fHandle->curPagePos=fHandle->curPagePos+1;
 		fclose(fp);
+		return RC_OK;
 	}
 }
 
@@ -377,13 +377,13 @@ RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
 	FILE *fp;
-	memPage=(char*)malloc(sizeof(char)*PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"r");
 	int offset=-PAGE_SIZE;
 	fseek(fp,offset,SEEK_END);
 	fread(memPage,sizeof(char),PAGE_SIZE,fp);
 	fHandle->curPagePos=fHandle->totalNumPages;
 	fclose(fp);
+	return RC_OK;
 }
 
 /* writing blocks to a page file */
