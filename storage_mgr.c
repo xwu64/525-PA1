@@ -505,9 +505,9 @@ RC writeBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage){
 	ensureCapacity (pageNum, fHandle);		//Make sure the program have enough capacity to write block.
 	
 	FILE *fp;
-	fp=fopen(fHandle->fileName,"rb+");
 	RC rv;
 
+	fp=fopen(fHandle->fileName,"rb+");
 	if(fseek(fp,pageNum * PAGE_SIZE, SEEK_SET) != 0){
 		rv = RC_READ_NON_EXISTING_PAGE;	
 	} else if (fwrite(memPage, PAGE_SIZE, 1, fp) != 1){
@@ -578,7 +578,7 @@ RC appendEmptyBlock (SM_FileHandle *fHandle){
 	allocData = (char *)calloc(1, PAGE_SIZE);
 	fp=fopen(fHandle->fileName,"ab+");
 
-	if(fwrite(allocData, PAGE_SIZE, 1, fp) == -1)   
+	if(fwrite(allocData, PAGE_SIZE, 1, fp) != 1)   
 	{
 		rv = RC_WRITE_FAILED;
 	} else {
@@ -589,7 +589,7 @@ RC appendEmptyBlock (SM_FileHandle *fHandle){
 	free(allocData);
 	fclose(fp);
 
-	return rv;
+	return  rv;
 }
 
 /***************************************************************
@@ -628,11 +628,11 @@ RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
 	}
 	
 	allocCapacity= numberOfPages * PAGE_SIZE - status.st_size;
-	allocData = (char *)malloc(allocCapacity);
+	allocData = (char *)calloc(1,allocCapacity);
 	
 	fp=fopen(fHandle->fileName,"ab+");
    
-	if(fwrite(allocData, allocCapacity, 1, fp) < 0)   
+	if(fwrite(allocData, allocCapacity, 1, fp) == 0)   
 	{
 		rv = RC_WRITE_FAILED;
 	} else {
