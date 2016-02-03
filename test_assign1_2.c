@@ -14,8 +14,7 @@ char *testName;
 #define TESTPF "test_pagefile.bin"
 
 /* prototypes for test functions */
-static void testCreateOpenClose(void);
-static void testSinglePageContent(void);
+static void testRestFunc(void);
 
 /* main function running all tests */
 int
@@ -25,41 +24,17 @@ main (void)
   
   initStorageManager();
 
-  testCreateOpenClose();
-  testSinglePageContent();
+  testRestFunc();
 
   return 0;
 }
 
 
 /* check a return code. If it is not RC_OK then output a message, error description, and exit */
-/* Try to create, open, and close a page file */
-void
-testCreateOpenClose(void)
-{
-  SM_FileHandle fh;
-
-  testName = "test create open and close methods";
-
-  TEST_CHECK(createPageFile (TESTPF));
-  
-  TEST_CHECK(openPageFile (TESTPF, &fh));
-  ASSERT_TRUE(strcmp(fh.fileName, TESTPF) == 0, "filename correct");
-  ASSERT_TRUE((fh.totalNumPages == 1), "expect 1 page in new file");
-  ASSERT_TRUE((fh.curPagePos == 0), "freshly opened file's page position should be 0");
-
-  TEST_CHECK(closePageFile (&fh));
-  TEST_CHECK(destroyPageFile (TESTPF));
-
-  // after destruction trying to open the file should cause an error
-  ASSERT_TRUE((openPageFile(TESTPF, &fh) != RC_OK), "opening non-existing file should return an error.");
-
-  TEST_DONE();
-}
 
 /* Try to create, open, and close a page file */
 void
-testSinglePageContent(void)
+testRestFunc(void)
 {
   SM_FileHandle fh;
   SM_PageHandle ph;
@@ -93,6 +68,17 @@ testSinglePageContent(void)
     ASSERT_TRUE((ph[i] == (i % 10) + '0'), "character in page read from disk is the one we expected.");
   printf("reading first block\n");
 
+  // get page position and check that it is correct
+  // read previous page and check that it is correct
+  // read current page and check that it is correct
+  // read next page and check that it is correct
+  // append empty page and check that it is correct
+  // write current page and check that it is correct
+  // read previous page and check that it is correct
+  // read next page and check that it is correct
+  // read first page use readBlock() and check that it is correct
+  // read last page and check that it is correct
+  // use ensureCapacity add 2 page and check that it is correct
   // destroy new page file
   TEST_CHECK(destroyPageFile (TESTPF));  
   
