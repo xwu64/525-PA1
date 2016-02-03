@@ -617,17 +617,11 @@ RC ensureCapacity (int numberOfPages, SM_FileHandle *fHandle){
 	}
 	
 	FILE *fp;
-	struct stat status;
 	long allocCapacity;
 	char *allocData;
 	RC rv;
 
-	if(stat(fHandle->fileName, &status) == -1)   
-	{
-		return RC_FILE_NOT_FOUND;
-	}
-	
-	allocCapacity= numberOfPages * PAGE_SIZE - status.st_size;
+	allocCapacity= (numberOfPages - fHandle -> totalNumPages) * PAGE_SIZE;
 	allocData = (char *)calloc(1,allocCapacity);
 	
 	fp=fopen(fHandle->fileName,"ab+");
