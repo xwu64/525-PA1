@@ -69,10 +69,32 @@ testRestFunc(void)
   printf("reading first block\n");
 
   // get page position and check that it is correct
+  int pageNum = 9999;
+  pageNum = getBlockPos(&fh);
+  printf("Get page position %d.\n",pageNum);
+
   // read previous page and check that it is correct
+  ASSERT_ERROR((readPreviousBlock(&fh, ph)), "No previous page. Output error is right");
+  printf("readPreviousBlock at first block.");
+
   // read current page and check that it is correct
+  TEST_CHECK(readCurrentBlock(&fh, ph));
+  for (i=0; i < PAGE_SIZE; i++)
+    ASSERT_TRUE((ph[i] == (i % 10) + '0'), "character in page read from disk is the one we expected.");
+
   // read next page and check that it is correct
+  ASSERT_ERROR((readNextBlock(&fh, ph)), "No next page. Output error is right");
+  printf("readNextBlock at last block.");
+
   // append empty page and check that it is correct
+  TEST_CHECK(appendEmptyBlock(&fh));
+  TEST_CHECK(readNextBlock(&fh, ph));
+
+        // the page should be empty (zero bytes)
+  for (i=0; i < PAGE_SIZE; i++)
+    ASSERT_TRUE((ph[i] == 0), "expected zero byte in first page of freshly initialized page");
+  printf("Appended block was empty\n");
+
   // write current page and check that it is correct
   // read previous page and check that it is correct
   // read next page and check that it is correct
