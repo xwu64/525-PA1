@@ -88,7 +88,7 @@ testRestFunc(void)
 
   // append empty page and check that it is correct
   TEST_CHECK(appendEmptyBlock(&fh));
-  TEST_CHECK(readNextBlock(&fh, ph));
+  TEST_CHECK(readLastBlock(&fh, ph));
 
         // the page should be empty (zero bytes)
   for (i=0; i < PAGE_SIZE; i++)
@@ -96,11 +96,27 @@ testRestFunc(void)
   printf("Appended block was empty\n");
 
   // write current page and check that it is correct
+  for (i=0; i < PAGE_SIZE; i++)
+    ph[i] = (i % 100) + '0';
+  TEST_CHECK(writeCurrentBlock (&fh, ph));
+  printf("writing appended block\n");
+  
   // read previous page and check that it is correct
+  TEST_CHECK(readPreviousBlock(&fh, ph));
+  for (i=0; i < PAGE_SIZE; i++)
+    ASSERT_TRUE((ph[i] == (i % 10) + '0'), "character in page read from disk is the one we expected.");
+  printf("reading previous block\n");
+
   // read next page and check that it is correct
-  // read first page use readBlock() and check that it is correct
-  // read last page and check that it is correct
+  TEST_CHECK(readNextBlock(&fh, ph));
+  for (i=0; i < PAGE_SIZE; i++)
+    ASSERT_TRUE((ph[i] == (i % 100) + '0'), "character in page read from disk is the one we expected.");
+  printf("reading next block\n");
+
   // use ensureCapacity add 2 page and check that it is correct
+  TEST_CHECK(ensureCapacity(3,&fh));
+  ASSERT_TRUE((fh.totalNumPages == 3), "ensureCapacity correct.\n");
+
   // destroy new page file
   TEST_CHECK(destroyPageFile (TESTPF));  
   
