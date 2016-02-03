@@ -112,7 +112,7 @@ RC createPageFile(char *fileName){
 		return RC_FILE_NOT_FOUND; 
 	}
 
-	fp_new = fopen(fileName,"w+");   //make sure the fp_new_open file readable, and writable
+	fp_new_open = fopen(fileName,"w+");   //make sure the fp_new_open file readable, and writable
 	str_new = (char *)malloc(PAGE_SIZE);   //allocate the space for the string
 	memset(str_new,'\0',PAGE_SIZE);	//initialize the string
 	fwrite(str_new,PAGE_SIZE,1,fp_new_open); // write the string to the file
