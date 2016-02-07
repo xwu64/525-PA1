@@ -97,7 +97,7 @@ testRestFunc(void)
 
   // write current page and check that it is correct
   for (i=0; i < PAGE_SIZE; i++)
-    ph[i] = (i % 100) + '0';
+    ph[i] = (i % 30) + '0';
   TEST_CHECK(writeCurrentBlock (&fh, ph));
   printf("writing appended block\n");
   
@@ -110,7 +110,10 @@ testRestFunc(void)
   // read next page and check that it is correct
   TEST_CHECK(readNextBlock(&fh, ph));
   for (i=0; i < PAGE_SIZE; i++)
-    ASSERT_TRUE((ph[i] == (i % 100) + '0'), "character in page read from disk is the one we expected.");
+  {
+    ASSERT_TRUE((ph[i] == (i % 30) + '0'), "character in page read from disk is the one we expected.");
+    printf("%d\n", i);
+  }
   printf("reading next block\n");
 
   // use ensureCapacity add 2 page and check that it is correct

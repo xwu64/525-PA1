@@ -154,7 +154,6 @@ RC openPageFile (char *fileName, SM_FileHandle *fHandle){
     fp = fopen(fileName, "r");
 
     if(fp == NULL){
-        fclose(fp);
         return RC_FILE_NOT_FOUND;
     }
 
