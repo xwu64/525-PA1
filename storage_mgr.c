@@ -255,7 +255,7 @@ RC destroyPageFile (char *fileName){
 
 RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
-	if(pageNum>fHandle->totalNumPages||pageNum<0)
+	if(pageNum>fHandle->totalNumPages-1||pageNum<0)
 		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
@@ -265,6 +265,7 @@ RC readBlock (int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage)
 		offset=fHandle->curPagePos*PAGE_SIZE;
 		fseek(fp,offset,SEEK_SET);
 		fread(memPage,sizeof(char),PAGE_SIZE,fp);
+		fHandle->curPagePos=pageNum;
 		fclose(fp);
 		return RC_OK;
 	}
@@ -342,7 +343,7 @@ RC readFirstBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 
 RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
-	if(fHandle->curPagePos<=0||fHandle->curPagePos>fHandle->totalNumPages)
+	if(fHandle->curPagePos<=0||fHandle->curPagePos>fHandle->totalNumPages-1)
 		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
@@ -377,7 +378,7 @@ RC readPreviousBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 
 RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
-	if(fHandle->curPagePos<0||fHandle->curPagePos>fHandle->totalNumPages)
+	if(fHandle->curPagePos<0||fHandle->curPagePos>fHandle->totalNumPages-1)
 		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
@@ -411,7 +412,7 @@ RC readCurrentBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 
 RC readNextBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 {
-	if(fHandle->curPagePos>(fHandle->totalNumPages-1)||fHandle->curPagePos<0)
+	if(fHandle->curPagePos<0||fHandle->curPagePos>fHandle->totalNumPages-2)
 		return RC_READ_NON_EXISTING_PAGE;
 	else
 	{
@@ -451,7 +452,7 @@ RC readLastBlock (SM_FileHandle *fHandle, SM_PageHandle memPage)
 	int offset=-PAGE_SIZE;
 	fseek(fp,offset,SEEK_END);
 	fread(memPage,sizeof(char),PAGE_SIZE,fp);
-	fHandle->curPagePos=fHandle->totalNumPages;
+	fHandle->curPagePos=fHandle->totalNumPages-1;
 	fclose(fp);
 	return RC_OK;
 }
