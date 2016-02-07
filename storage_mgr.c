@@ -198,7 +198,9 @@ RC openPageFile (char *fileName, SM_FileHandle *fHandle){
 
 
 RC closePageFile (SM_FileHandle *fHandle){
-    free(fHandle);
+    fHandle->fileName = "";
+    fHandle->curPagePos = 0;
+    fHandle->totalNumPages = 0;
     return RC_OK;
 }
 
