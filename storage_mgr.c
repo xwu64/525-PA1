@@ -147,6 +147,36 @@ RC createPageFile(char *fileName){
 
 
 RC openPageFile (char *fileName, SM_FileHandle *fHandle){
+    FILE *fp;
+    int size;
+    int seek_result;
+
+    fp = fopen(fileName, "r");
+
+    if(fp == NULL){
+        fclose(fp);
+        return RC_FILE_NOT_FOUND;
+    }
+
+    seek_result = fseek(fp, 0, SEEK_END);
+
+    if(seek_result != 0){
+        fclose(fp);
+        return RC_GET_NUMBER_OF_BYTES_FAILED;
+    }
+
+    size = ftell(fp);
+    if(size == -1){
+        fclose(fp);
+        return RC_GET_NUMBER_OF_BYTES_FAILED;
+    }
+
+    fHandle->fileName = fileName;
+    fHandle->totalNumPages = (int)(size % PAGE_SIZE + 1);
+    fHandle->curPagePos = 0;
+
+    return RC_OK;
+
 }
 
 /***************************************************************
@@ -168,6 +198,8 @@ RC openPageFile (char *fileName, SM_FileHandle *fHandle){
 
 
 RC closePageFile (SM_FileHandle *fHandle){
+    free(fHandle);
+    return RC_OK;
 }
 
 /***************************************************************
@@ -189,6 +221,13 @@ RC closePageFile (SM_FileHandle *fHandle){
 
 
 RC destroyPageFile (char *fileName){
+    int remove_result;
+    remove_result = remove(fileName);
+    if(remove_result == 0){
+        return RC_OK;
+    }else{
+        return RC_FILE_NOT_FOUND;
+    }
 }
 
 /* reading blocks from disc */
