@@ -44,6 +44,281 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
                     5. Function descriptions: of all additional functions  
 
 
+/***************************************************************
+ * Function Name: initStorageManager
+ * 
+ * Description:to let user know enter the StorageManager
+ *
+ * Parameters:void
+ *
+ * Return:void
+ *
+ * Author:Chuanwei Tu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/2/1    	 Chuanwei Tu				  initializing the Storage Manager 
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: createPageFile
+ * 
+ * Description: Create a new page file fileName. The initial file size should be one page. This method should fill this single page with '\0' bytes.
+ *
+ * Parameters: char *fileName
+ *
+ * Return: RC
+ *
+ * Author: Xiaoliang Wu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      --------------  --------------------------  ----------------
+ *      2016/02/07      Xiaoliang Wu                implement function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: openPageFile
+ * 
+ * Description: Opens an existing page file.
+ *
+ * Parameters:char *fileName ,SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xiaoliang Wu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/02/07      Xiaoliang Wu                implement function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: closePageFile
+ * 
+ * Description: Close an open page file
+ *
+ * Parameters: SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xiaoliang Wu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/02/07      Xiaoliang Wu                implement function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: destroyPageFile
+ * 
+ * Description: destroy (delete) a page file
+ *
+ * Parameters: SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xiaoliang Wu 
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/02/07      Xiaoliang Wu                implement function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: readBlock
+ * 
+ * Description: read the pageNum block from the file defined by fHandle into address memPage
+ *
+ * Parameters:int pageNum, SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return:RC
+ *
+ * Author:Zhipeng Liu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/1/30      Zhipeng Liu            first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: getBlockPos
+ * 
+ * Description:return the current block position in the file
+ *
+ * Parameters:SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author:Zhipeng Liu
+ *
+ * History:
+ *      Date            Name                        Content
+ *      2016/1/30      Zhipeng Liu            first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name:  readFirstBlock
+ * 
+ * Description:read the first block of the file described in fHandle
+ *
+ * Parameters:SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return:RC
+ *
+ * Author:Zhipeng Liu
+ *
+ * History:
+ *      Date                     Name                        Content
+ *      2016/1/30      Zhipeng Liu                    first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name:readPreviousBlock
+ * 
+ * Description:read the previousblock in this file into the address witch memPage pointed
+ *
+ * Parameters:SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return:RC
+ *
+ * Author:Zhipeng Liu
+ *
+ * History:
+ *      Date                     Name                             Content
+ *      2016/1/27       Zhipeng Liu                    first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: readCurrentBlock
+ * 
+ * Description: read the current block (pointed by the fHandle->curPagePos) into memo address memPage
+ *
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return: RC
+ *
+ * Author: Zhipeng Liu
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: readNextBlock
+ * 
+ * Description: read the next block (the current block defined in the fHandle->curPagePos) in to memo address memPage
+ *
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return: RC
+ *
+ * Author: Zhipeng Liu
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: readLastBlock
+ * 
+ * Description: read the last block in this file into memo address memPage
+ *
+ * Parameters: SM_FileHandle *fHandle, SM_PageHandle memPage
+ *
+ * Return: RC
+ *
+ * Author: Zhipeng Liu
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/1/27     Zhipeng Liu             first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: writeBlock 
+ * 
+ * Description: Write a page to disk using either the current position or an absolute position.
+ *
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xincheng Yang
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/2/2		Xincheng Yang             first time to implement the function
+ *   2016/2/2		Xincheng Yang			  modified some codes
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: writeCurrentBlock 
+ * 
+ * Description: Write a page to disk using either the current position or an absolute position.
+ *
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xincheng Yang
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/2/2		Xincheng Yang             first time to implement the function
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: appendEmptyBlock 
+ * 
+ * Description: Increase the number of pages in the file by one. The new last page should be filled with zero bytes.
+ *
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xincheng Yang
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/2/1		Xincheng Yang             first time to implement the function
+ *   2016/2/2		Xincheng Yang			  modified some codes
+ *
+***************************************************************/
+
+/***************************************************************
+ * Function Name: ensureCapacity 
+ * 
+ * Description: If the file has less than numberOfPages pages then increase the size to numberOfPages.
+ *
+ * Parameters: int numberOfPages, SM_FileHandle *fHandle
+ *
+ * Return: RC
+ *
+ * Author: Xincheng Yang
+ *
+ * History:
+ *      Date            Name                        Content
+ *   2016/2/1		Xincheng Yang             first time to implement the function
+ *
+***************************************************************/
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     6. Additional error codes: of all additional error codes  
 
@@ -56,6 +331,7 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     7. Data structure: main data structure used
 
+  No additional data structure are used.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     8. Extra credit: of all extra credits 
@@ -70,7 +346,17 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     10. Test cases: of all additional test cases added 
 
+  test case in test_assign1_1.c
+    testCreateOpenClose()
+        test createPageFile, openPageFile, closePageFile, destroyPageFile functions.
 
+    testSinglePageContent()
+        test createPageFile, openPageFile, readFirstBlock, writeBlock, readFirstBlock, destroyPageFile, functions.
+
+  test case in test_assign1_2.c
+    testRestFunc()
+        test createPageFile, openPageFile, readFirstBlock, writeBlock, getBlockPos, readPreviousBlock, readCurrentBlock, readNextBlock, appendEmptyBlock, readLastBlock, writeCurrentBlock, ensureCapacity, destroyPageFile, functions.
+        
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     11. Problems solved  
 
