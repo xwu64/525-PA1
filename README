@@ -26,10 +26,20 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     3. Milestone
 
+  2016/02/07 all function have pass test.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     4. Installation instruction  
+  using test_assign1_1.c test:
+    $ make test1
+    $ ./test1
 
+  using test_assign1_2.c test:
+    $ make test2
+    $ ./test2
+
+  after test, use clean to delete files except source code.
+    $ make clean
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     5. Function descriptions: of all additional functions  
@@ -38,6 +48,11 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     6. Additional error codes: of all additional error codes  
 
+  RC_CREATE_FILE_FAIL 
+  Unkown reasons that cause creating file fail.
+
+  RC_GET_NUMBER_OF_BYTES_FAILED 
+  Unkown reasons that cause program cannot get size of file when program open file.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     7. Data structure: main data structure used
@@ -46,10 +61,12 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     8. Extra credit: of all extra credits 
 
+  There are additional tests that are implemented in test_assign1_2.c. In this test, it test all functions that are not tested in test_assign1_1.c.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     9. Additional files: of all additional files 
 
+  No additional files.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     10. Test cases: of all additional test cases added 
@@ -58,7 +75,9 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     11. Problems solved  
 
+  Implement all required functions and additional test case.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     12. Problems to be solved
 
+  This program could be optimized.

@@ -112,7 +112,6 @@ testRestFunc(void)
   for (i=0; i < PAGE_SIZE; i++)
   {
     ASSERT_TRUE((ph[i] == (i % 30) + '0'), "character in page read from disk is the one we expected.");
-    printf("%d\n", i);
   }
   printf("reading next block\n");
 
