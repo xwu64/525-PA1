@@ -10,8 +10,7 @@ ctu5@hawk.iit.hawk      20352609    Chuanwei Tu
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     2. File list 
-    
-  _DS_Store
+
   dberror.c
   dberror.h
   Makefile
